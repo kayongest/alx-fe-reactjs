@@ -3,9 +3,6 @@ import MainContent from './components/MainContent';
 import Footer from './components/Footer';
 import UserProfile from './components/UserProfile.jsx';
 import WelcomeMessage from './components/WelcomeMessage';
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import UserContext from './UserContext';
 import ProfilePage from './components/ProfilePage';
