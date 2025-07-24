@@ -1,12 +1,18 @@
 import React from 'react';
 
-export default function UserProfile(props) {
-  const { name, age, bio } = props;
+export default function UserProfile() {
   return (
     <div>
-      <h2>{name}</h2>
-      <p>Age: {age}</p>
-      <p>{bio}</p>
+      <span
+        style={{
+          color: 'blue',
+          border: '1px solid blue',
+          padding: '10px',
+          margin: '10px'
+        }}
+      >
+        User Name
+      </span>
     </div>
   );
 }
