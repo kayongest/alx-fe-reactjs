@@ -5,7 +5,7 @@ function Navbar() {
   const location = useLocation();
   const navStyle = {
     padding: "1rem 2rem",
-    background: "#222",
+    backgroundColor: "#222",
     display: "flex",
     alignItems: "center",
     justifyContent: "center", // <-- add this line
