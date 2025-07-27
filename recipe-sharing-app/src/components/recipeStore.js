@@ -11,6 +11,8 @@ const useRecipeStore = create((set, get) => ({
     maxCookTime: '',
     hasIngredients: []
   },
+  favorites: [],
+  recommendations: [],
   
   // Basic CRUD operations
   addRecipe: (newRecipe) => {
@@ -87,6 +89,121 @@ const useRecipeStore = create((set, get) => ({
     }
   },
   
+  // Favorites management
+  addFavorite: (recipeId) => {
+    try {
+      set(state => {
+        if (!state.favorites.includes(recipeId)) {
+          return { favorites: [...state.favorites, recipeId] };
+        }
+        return state;
+      });
+    } catch (error) {
+      console.error('Error adding favorite:', error);
+    }
+  },
+  
+  removeFavorite: (recipeId) => {
+    try {
+      set(state => ({
+        favorites: state.favorites.filter(id => id !== recipeId)
+      }));
+    } catch (error) {
+      console.error('Error removing favorite:', error);
+    }
+  },
+  
+  toggleFavorite: (recipeId) => {
+    try {
+      set(state => {
+        const isFavorite = state.favorites.includes(recipeId);
+        if (isFavorite) {
+          return { favorites: state.favorites.filter(id => id !== recipeId) };
+        } else {
+          return { favorites: [...state.favorites, recipeId] };
+        }
+      });
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
+    }
+  },
+  
+  // Recommendations system
+  generateRecommendations: () => {
+    try {
+      const { recipes, favorites } = get();
+      
+      if (favorites.length === 0) {
+        // If no favorites, recommend popular recipes (most recent)
+        const recommended = recipes
+          .sort((a, b) => b.id - a.id)
+          .slice(0, 6);
+        set({ recommendations: recommended });
+        return;
+      }
+      
+      // Get favorite recipe categories and difficulties
+      const favoriteRecipes = recipes.filter(recipe => favorites.includes(recipe.id));
+      const favoriteCategories = [...new Set(favoriteRecipes.map(recipe => recipe.category).filter(Boolean))];
+      const favoriteDifficulties = [...new Set(favoriteRecipes.map(recipe => recipe.difficulty).filter(Boolean))];
+      
+      // Generate recommendations based on favorites
+      const recommended = recipes
+        .filter(recipe => !favorites.includes(recipe.id)) // Don't recommend already favorited recipes
+        .map(recipe => {
+          let score = 0;
+          
+          // Category match
+          if (favoriteCategories.includes(recipe.category)) {
+            score += 3;
+          }
+          
+          // Difficulty match
+          if (favoriteDifficulties.includes(recipe.difficulty)) {
+            score += 2;
+          }
+          
+          // Similar prep time (within 15 minutes)
+          const avgPrepTime = favoriteRecipes.reduce((sum, r) => sum + (r.prepTime || 0), 0) / favoriteRecipes.length;
+          if (recipe.prepTime && Math.abs(recipe.prepTime - avgPrepTime) <= 15) {
+            score += 1;
+          }
+          
+          // Similar cook time (within 30 minutes)
+          const avgCookTime = favoriteRecipes.reduce((sum, r) => sum + (r.cookTime || 0), 0) / favoriteRecipes.length;
+          if (recipe.cookTime && Math.abs(recipe.cookTime - avgCookTime) <= 30) {
+            score += 1;
+          }
+          
+          // Ingredient overlap
+          if (recipe.ingredients && favoriteRecipes.some(fav => 
+            fav.ingredients && recipe.ingredients.some(ingredient =>
+              fav.ingredients.some(favIngredient => 
+                favIngredient.toLowerCase().includes(ingredient.toLowerCase()) ||
+                ingredient.toLowerCase().includes(favIngredient.toLowerCase())
+              )
+            )
+          )) {
+            score += 2;
+          }
+          
+          return { ...recipe, recommendationScore: score };
+        })
+        .filter(recipe => recipe.recommendationScore > 0)
+        .sort((a, b) => b.recommendationScore - a.recommendationScore)
+        .slice(0, 6)
+        .map(recipe => {
+          const { recommendationScore, ...recipeWithoutScore } = recipe;
+          return recipeWithoutScore;
+        });
+      
+      set({ recommendations: recommended });
+    } catch (error) {
+      console.error('Error generating recommendations:', error);
+      set({ recommendations: [] });
+    }
+  },
+  
   // Computed filtered recipes with advanced filtering
   getFilteredRecipes: () => {
     try {
@@ -149,6 +266,28 @@ const useRecipeStore = create((set, get) => ({
     } catch (error) {
       console.error('Error getting filtered recipes:', error);
       return [];
+    }
+  },
+  
+  // Get favorite recipes
+  getFavoriteRecipes: () => {
+    try {
+      const { recipes, favorites } = get();
+      return recipes.filter(recipe => favorites.includes(recipe.id));
+    } catch (error) {
+      console.error('Error getting favorite recipes:', error);
+      return [];
+    }
+  },
+  
+  // Check if recipe is favorited
+  isFavorite: (recipeId) => {
+    try {
+      const { favorites } = get();
+      return favorites.includes(recipeId);
+    } catch (error) {
+      console.error('Error checking favorite status:', error);
+      return false;
     }
   },
   

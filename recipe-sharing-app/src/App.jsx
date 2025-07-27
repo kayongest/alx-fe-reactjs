@@ -4,6 +4,8 @@ import AddRecipeForm from './components/AddRecipeForm';
 import AdvancedFilters from './components/AdvancedFilters';
 import RecipeList from './components/RecipeList';
 import RecipeDetail from './components/RecipeDetail';
+import FavoritesList from './components/FavoritesList';
+import RecommendationsList from './components/RecommendationsList';
 import './App.css';
 
 function App() {
@@ -17,6 +19,8 @@ function App() {
               <AddRecipeForm />
               <SearchBar />
               <AdvancedFilters />
+              <RecommendationsList />
+              <FavoritesList />
               <RecipeList />
             </>
           } />
