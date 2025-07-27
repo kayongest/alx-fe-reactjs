@@ -3,7 +3,7 @@ import SearchBar from './components/SearchBar';
 import AddRecipeForm from './components/AddRecipeForm';
 import AdvancedFilters from './components/AdvancedFilters';
 import RecipeList from './components/RecipeList';
-import RecipeDetails from './components/RecipeDetails';
+import RecipeDetail from './components/RecipeDetail';
 import './App.css';
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
               <RecipeList />
             </>
           } />
-          <Route path="/recipe/:recipeId" element={<RecipeDetails />} />
+          <Route path="/recipe/:recipeId" element={<RecipeDetail />} />
         </Routes>
       </div>
     </Router>
