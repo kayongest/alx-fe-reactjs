@@ -1,6 +1,6 @@
 // src/components/Search.jsx
 import { useState } from "react";
-import { fetchUserData } from '../services/githubService';
+import { fetchUserData } from "../services/githubService";
 
 export default function Search() {
   const [username, setUsername] = useState("");
@@ -23,7 +23,7 @@ export default function Search() {
       const data = await fetchUserData(username);
       setUserData(data);
     } catch (err) {
-      setError(err.message); // This will now show the exact message from githubService
+      setError(err.message); // Directly using the thrown message without changes
     } finally {
       setLoading(false);
     }
@@ -48,7 +48,8 @@ export default function Search() {
       {loading && <div className="loading-indicator">Loading...</div>}
       {error && (
         <div className="error-message">
-          <p>{error}</p> {/* Now displays exact required message for 404 errors */}
+          <p>{error}</p>{" "}
+          {/* Now displays exact required message for 404 errors */}
         </div>
       )}
       {userData && (
