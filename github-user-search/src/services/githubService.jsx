@@ -14,7 +14,7 @@ export const fetchUserData = async (username) => {
     return response.data;
   } catch (error) {
     if (error.response) {
-      // Handle different HTTP error statuses
+      // Here, we handle different HTTP error statuses
       switch (error.response.status) {
         case 404:
           throw new Error(`User "${username}" not found on GitHub`);

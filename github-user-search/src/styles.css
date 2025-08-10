@@ -77,3 +77,27 @@ main {
     color: #d73a49;
     font-weight: bold;
 }
+
+/* Add these to your existing styles */
+.error-input {
+  border: 2px solid #ff6b6b;
+}
+
+.error-message {
+  color: #ff6b6b;
+  background-color: #fff5f5;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-top: 1rem;
+}
+
+.rate-limit-note {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+.loading-indicator {
+  color: #4dabf7;
+  margin-top: 1rem;
+}
