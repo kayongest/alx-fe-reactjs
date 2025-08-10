@@ -2,7 +2,7 @@
 // This file is used to configure Tailwind CSS in this project
 module.exports = {
   plugins: {
-    tailwindcss: {},
+    '@tailwindcss/postcss': {},
     autoprefixer: {},
-  },
+  }
 }

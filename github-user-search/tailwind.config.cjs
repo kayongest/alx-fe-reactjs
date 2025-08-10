@@ -7,7 +7,11 @@ module.exports = {
     "./public/index.html"
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['Titillium Web', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }
