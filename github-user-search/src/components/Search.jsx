@@ -23,7 +23,11 @@ export default function Search() {
       const data = await fetchUserData(username);
       setUserData(data);
     } catch (err) {
-      setError(err.message); // Directly using the thrown message without changes
+      setError(
+        err.response?.status === 404
+          ? "Looks like we cant find the user"
+          : err.message
+      ); // Directly using the thrown message without changes
     } finally {
       setLoading(false);
     }
@@ -44,14 +48,17 @@ export default function Search() {
           {loading ? "Searching..." : "Search"}
         </button>
       </form>
-
       {loading && <div className="loading-indicator">Loading...</div>}
       {error && (
         <div className="error-message">
-          <p>{error}</p>{" "}
-          {/* Now displays exact required message for 404 errors */}
+          {error === "Looks like we cant find the user" ? (
+            <p>Looks like we cant find the user</p>
+          ) : (
+            <p>{error}</p>
+          )}
         </div>
       )}
+      {/*  Display user data if available */}
       {userData && (
         <div className="user-card">
           <img src={userData.avatar_url} alt={`${userData.login}'s avatar`} />

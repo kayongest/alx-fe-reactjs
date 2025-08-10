@@ -7,8 +7,8 @@ export const fetchUserData = async (username) => {
     return response.data;
   } catch (error) {
     if (error.response?.status === 404) {
-      throw new Error("Looks like we cant find the user"); // EXACT required message
+      throw new Error("Looks like we cant find the user"); // EXACT required string
     }
-    throw new Error("Failed to fetch user data"); // Generic fallback
+    throw error; // Passing through other errors unchanged
   }
 };
