@@ -36,6 +36,7 @@ export default function Search() {
   return (
     <div className="search-container">
       <h2>Search GitHub Users</h2>
+      <div className="bg-green-500 p-4 text-white">Tailwind is working!</div>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
