@@ -4,6 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 body {
     font-family: "Titillium Web", sans-serif;
     margin: 0;
