@@ -1,7 +1,8 @@
-export default function Footer() {
+export default function Home() {
   return (
-    <footer>
-      <p>&copy; 2025 | aBility</p>
-    </footer>
+    <main>
+      <h2>Welcome to My App</h2>
+      <p>This is the home page.</p>
+    </main>
   );
 }
