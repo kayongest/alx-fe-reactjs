@@ -23,7 +23,7 @@ export default function Search() {
       const data = await fetchUserData(username);
       setUserData(data);
     } catch (err) {
-      setError(err.message || "Failed to fetch user data");
+      setError(err.message); // This will now show the exact message from githubService
     } finally {
       setLoading(false);
     }
@@ -48,13 +48,7 @@ export default function Search() {
       {loading && <div className="loading-indicator">Loading...</div>}
       {error && (
         <div className="error-message">
-          <p>⚠️ {error}</p>
-          {error.includes("rate limit") && (
-            <p className="rate-limit-note">
-              Note: Unauthenticated requests are limited to 60 requests per
-              hour.
-            </p>
-          )}
+          <p>{error}</p> {/* Now displays exact required message for 404 errors */}
         </div>
       )}
       {userData && (
